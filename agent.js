@@ -22,7 +22,7 @@ async function collect() {
   const net = await si.networkStats();
 
   const cpuPct = parseFloat(cpu.currentLoad.toFixed(1));
-  const ramPct = parseFloat(((mem.used / mem.total) * 100).toFixed(1));
+  const ramPct = parseFloat((((mem.total - mem.available) / mem.total) * 100).toFixed(1));
   const swap = mem.swaptotal > 0 ? parseFloat(((mem.swapused / mem.swaptotal) * 100).toFixed(1)) : 0;
   const mainDisk = disks.find(d => d.mount === '/') || disks[0];
   const diskPct = mainDisk ? parseFloat(((mainDisk.used / mainDisk.size) * 100).toFixed(1)) : 0;
