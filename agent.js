@@ -21,13 +21,14 @@ async function report() {
     ]);
     const cpu = parseFloat(cpuLoad.currentLoad.toFixed(1));
     const ram = parseFloat(((mem.used / mem.total) * 100).toFixed(1));
+    const swap = mem.swaptotal > 0 ? parseFloat(((mem.swapused / mem.swaptotal) * 100).toFixed(1)) : 0;
     const mainDisk = disk.find(d => d.mount === '/') || disk[0];
     const diskPct = mainDisk ? parseFloat(((mainDisk.used / mainDisk.size) * 100).toFixed(1)) : 0;
     const mainNet = net[0] || {};
     const net_in = Math.round((mainNet.rx_sec || 0) / 1024);
     const net_out = Math.round((mainNet.tx_sec || 0) / 1024);
 
-    const payload = JSON.stringify({ token: TOKEN, name: NAME, cpu, ram, disk: diskPct, net_in, net_out });
+    const payload = JSON.stringify({ token: TOKEN, name: NAME, cpu, ram, disk: diskPct, net_in, net_out, swap });
     const url = new URL(SERVER + '/api/report');
     const mod = url.protocol === 'https:' ? https : http;
     const req = mod.request({
