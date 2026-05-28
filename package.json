@@ -1,0 +1,11 @@
+{
+  "name": "smon-agent",
+  "version": "1.0.0",
+  "main": "agent.js",
+  "scripts": {
+    "start": "node agent.js"
+  },
+  "dependencies": {
+    "systeminformation": "5.21.22"
+  }
+}
