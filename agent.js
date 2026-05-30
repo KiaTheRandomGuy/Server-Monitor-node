@@ -24,13 +24,14 @@ async function collect() {
   const cpuPct = parseFloat(cpu.currentLoad.toFixed(1));
   const ramPct = parseFloat((((mem.total - mem.available) / mem.total) * 100).toFixed(1));
   const swap = mem.swaptotal > 0 ? parseFloat(((mem.swapused / mem.swaptotal) * 100).toFixed(1)) : 0;
+  const swap_total = parseFloat((mem.swaptotal / 1024 / 1024 / 1024).toFixed(1));
   const mainDisk = disks.find(d => d.mount === '/') || disks[0];
   const diskPct = mainDisk ? parseFloat(((mainDisk.used / mainDisk.size) * 100).toFixed(1)) : 0;
   const mainNet = net[0] || {};
   const net_in = Math.round((mainNet.rx_sec || 0) / 1024);
   const net_out = Math.round((mainNet.tx_sec || 0) / 1024);
 
-  return { cpu: cpuPct, ram: ramPct, disk: diskPct, net_in, net_out, swap };
+  return { cpu: cpuPct, ram: ramPct, disk: diskPct, net_in, net_out, swap, swap_total };
 }
 
 function send(data) {
